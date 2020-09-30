@@ -3,7 +3,7 @@ runs:
   steps:
     - run: sudo systemctl start postgresql.service
       shell: bash
-    - run: sudo -u postgres createuser --createdb ${USER}
+    - run: sudo -u postgres createuser --createdb --superuser ${USER}
       shell: bash
     - run: createdb ${USER}
       shell: bash
