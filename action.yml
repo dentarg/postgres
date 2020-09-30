@@ -1,11 +1,13 @@
 runs:
   using: "composite"
   steps:
+    - run: sudo sed -i s/md5/trust/g /etc/postgresql/12/main/pg_hba.conf
+      shell: bash
     - run: sudo systemctl start postgresql.service
       shell: bash
     - run: sudo -u postgres createuser --createdb --superuser ${USER}
       shell: bash
     - run: createdb ${USER}
       shell: bash
-    - run: echo "::set-env name=POSTGRES_URL::postgres:///${{ env.USER }}"
+    - run: echo "::set-env name=POSTGRES_URL::postgres://localhost/${{ env.USER }}"
       shell: bash
