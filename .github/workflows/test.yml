@@ -1,0 +1,26 @@
+name: Test this action
+on:
+  pull_request:
+  push:
+    branches-ignore:
+    - v1
+    tags-ignore:
+    - '*'
+    paths-ignore:
+    - README.md
+  schedule:
+    - cron: '0 7 * * SUN'
+jobs:
+  test:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ ubuntu-16.04, ubuntu-18.04, ubuntu-20.04 ]
+
+    name: ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    steps:
+    - uses: actions/checkout@v2
+    - uses: ./
+    - run: pg_isready --dbname=${{ env.POSTGRES_URL }}
+    - run: psql --command='\d' ${{ env.POSTGRES_URL }}
