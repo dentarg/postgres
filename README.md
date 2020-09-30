@@ -1,6 +1,6 @@
 # postgres
 
-`dentarg/postgres` is an [composite run steps action] that starts PostgreSQL in the GitHub Action VM and creates a user and a database. You can then connect to the database over the "local socket" using the address found in environment variable `POSTGRES_URL`.
+`dentarg/postgres` is an [composite run steps action] that starts PostgreSQL in the GitHub Action VM and creates a user and a database. You can then connect to the database using the address found in environment variable `POSTGRES_URL`.
 
 ```yaml
 jobs:
