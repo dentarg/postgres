@@ -9,5 +9,5 @@ runs:
       shell: bash
     - run: createdb ${USER}
       shell: bash
-    - run: echo "::set-env name=POSTGRES_URL::postgres://localhost/${{ env.USER }}"
+    - run: echo "POSTGRES_URL=postgres://localhost/${{ env.USER }}" >> $GITHUB_ENV
       shell: bash
