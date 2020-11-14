@@ -1,3 +1,5 @@
+name: "Postgres"
+description: "Start PostgreSQL in the GitHub Action VM"
 runs:
   using: "composite"
   steps:
