@@ -3,11 +3,15 @@ runs:
   steps:
     - run: sudo sed -i s/md5/trust/g /etc/postgresql/*/main/pg_hba.conf
       shell: bash
+
     - run: sudo systemctl start postgresql.service
       shell: bash
+
     - run: sudo -u postgres createuser --createdb --superuser ${USER}
       shell: bash
+
     - run: createdb ${USER}
       shell: bash
-    - run: echo "POSTGRES_URL=postgres://localhost/${{ env.USER }}" >> $GITHUB_ENV
+
+    - run: echo "POSTGRES_URL=postgres://localhost/${USER}" >> $GITHUB_ENV
       shell: bash
