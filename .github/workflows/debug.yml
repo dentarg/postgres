@@ -1,0 +1,37 @@
+name: Debug
+on:
+  push:
+  workflow_dispatch:
+jobs:
+  test:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ ubuntu-18.04, ubuntu-20.04 ]
+
+    name: ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    continue-on-error: true # prevent the workflow to fail if this job fails
+    steps:
+    # the action steps
+    - run: sudo sed -i s/md5/trust/g /etc/postgresql/*/main/pg_hba.conf
+      continue-on-error: true
+    - run: sudo systemctl start postgresql.service
+      continue-on-error: true
+    - run: sudo -u postgres createuser --createdb --superuser ${USER}
+      continue-on-error: true
+    - run: createdb ${USER}
+      continue-on-error: true
+    - run: echo "POSTGRES_URL=postgres://localhost/${USER}" >> $GITHUB_ENV
+      continue-on-error: true
+    # the test steps
+    - run: psql --version
+      continue-on-error: true
+    - run: pg_isready --dbname=$POSTGRES_URL
+      continue-on-error: true
+    - run: psql --command='CREATE TABLE tbl()' $POSTGRES_URL
+      continue-on-error: true
+    - run: psql --command='\d' $POSTGRES_URL
+      continue-on-error: true
+    - run: psql --command='SELECT * FROM pg_available_extensions' $POSTGRES_URL
+      continue-on-error: true
