@@ -1,4 +1,4 @@
-name: "Postgres"
+name: "PostgreSQL in GitHub Actions VM"
 description: "Start PostgreSQL in the GitHub Actions VM"
 runs:
   using: "composite"
