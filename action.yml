@@ -3,7 +3,7 @@ description: "Start PostgreSQL in the GitHub Actions VM"
 runs:
   using: "composite"
   steps:
-    - run: sudo sed -i s/md5/trust/g /etc/postgresql/*/main/pg_hba.conf
+    - run: sudo sed -i s/scram-sha-256/trust/g /etc/postgresql/*/main/pg_hba.conf
       shell: bash
 
     - run: sudo systemctl start postgresql.service

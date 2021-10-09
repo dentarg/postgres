@@ -13,8 +13,10 @@ jobs:
     runs-on: ${{ matrix.os }}
     continue-on-error: true # prevent the workflow to fail if this job fails
     steps:
+    - run: ls -al /etc/postgresql
+    - run: cat /etc/postgresql/*/main/pg_hba.conf
     # the action steps
-    - run: sudo sed -i s/md5/trust/g /etc/postgresql/*/main/pg_hba.conf
+    - run: sudo sed -i s/scram-sha-256/trust/g /etc/postgresql/*/main/pg_hba.conf
       continue-on-error: true
     - run: sudo systemctl start postgresql.service
       continue-on-error: true
