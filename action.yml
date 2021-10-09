@@ -1,5 +1,8 @@
 name: "PostgreSQL in GitHub Actions VM"
 description: "Start PostgreSQL in the GitHub Actions VM"
+branding:
+  icon: "save"
+  color: "orange"
 runs:
   using: "composite"
   steps:
