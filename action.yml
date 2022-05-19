@@ -3,6 +3,11 @@ description: "Start PostgreSQL in the GitHub Actions VM"
 branding:
   icon: "save"
   color: "orange"
+inputs:
+  env-key:
+    description: "Name of the environment variable with the Postgres URL"
+    required: false
+    default: "POSTGRES_URL"
 runs:
   using: "composite"
   steps:
@@ -18,5 +23,5 @@ runs:
     - run: createdb ${USER}
       shell: bash
 
-    - run: echo "POSTGRES_URL=postgres://localhost/${USER}" >> $GITHUB_ENV
+    - run: echo "${{ inputs.env-key }}=postgres://localhost/${USER}" >> $GITHUB_ENV
       shell: bash
