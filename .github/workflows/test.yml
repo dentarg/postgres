@@ -19,10 +19,22 @@ jobs:
     name: ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
     - run: psql --version
     - uses: ./
     - run: pg_isready --dbname=$POSTGRES_URL
     - run: psql --command='CREATE TABLE tbl()' $POSTGRES_URL
     - run: psql --command='\d' $POSTGRES_URL
     - run: psql --command='SELECT * FROM pg_available_extensions' $POSTGRES_URL
+  test_custom_env:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - uses: ./
+      with:
+        env-key: DATABASE_URL
+    - run: pg_isready --dbname=$DATABASE_URL
+    - run: psql --command='CREATE TABLE tbl()' $DATABASE_URL
+    - run: psql --command='\d' $DATABASE_URL
+    - run: psql --command='SELECT * FROM pg_available_extensions' $DATABASE_URL
