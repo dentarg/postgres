@@ -1,4 +1,7 @@
 name: Test this action
+
+permissions:
+  contents: read
 on:
   pull_request:
   push:
@@ -15,11 +18,10 @@ jobs:
       fail-fast: false
       matrix:
         os: [ ubuntu-22.04, ubuntu-24.04 ]
-
     name: ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v5
     - run: psql --version
     - uses: ./
     - run: pg_isready --dbname=$POSTGRES_URL
@@ -30,7 +32,7 @@ jobs:
     needs: test
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v5
     - uses: ./
       with:
         env-key: DATABASE_URL
